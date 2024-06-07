@@ -1,0 +1,52 @@
+package com.redhat.filestore.client;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+class FileClientTest {
+    FileClient fileClient = new FileClient();
+
+
+    @Test
+    void testAddFiles() throws IOException {
+        fileClient.addFiles(new File(getClass().getResource("/com/redhat/filestore/client/PleaseReplaceMeWithTestFile.txt").getFile()));
+    }
+
+    @Test
+    void testStoreFile() {
+        fileClient.storeFile(List.of("String"), "fileContent");
+    }
+
+    @Test
+    void testGetFiles() {
+        String result = fileClient.getFiles();
+        File[] expected = {new File("file1.txt"), new File("file2.txt")};
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void testUpdateFile() {
+        fileClient.updateFile("file1.txt", "fileContent");
+    }
+
+    @Test
+    void testDeleteFile() {
+        fileClient.deleteFile("fileName");
+    }
+
+    @Test
+    void testWordCount() {
+        Integer result = fileClient.wordCount();
+        Assertions.assertEquals(Integer.valueOf(6), result);
+    }
+
+    @Test
+    void testFrequentWords() {
+        List<String> result = fileClient.frequentWords(0, "order");
+        Assertions.assertEquals(List.of("the","filecontent","this","is","content.","updated"), result);
+    }
+}

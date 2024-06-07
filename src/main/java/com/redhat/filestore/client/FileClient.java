@@ -1,5 +1,6 @@
 package com.redhat.filestore.client;
 
+import com.redhat.filestore.constants.CommandConstants;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -17,18 +18,10 @@ public class FileClient {
     private static final String SERVER_URL = "http://localhost:8080";
     private static final String UPLOAD_FOLDER = "uploads/";
 
-    private static final String STORE_DATA = "store ls";
-    private static final String REMOVE_FILE = "store rm";
-    private static final String UPDATE_FILE = "store update";
-    private static final String WORD_COUNT = "store wc";
-    private static final String FREQUENT_WORDS = "store freq-words";
-
     public static void main(String[] args) throws IOException {
 
         Scanner in = new Scanner(System.in);
         String s = in.nextLine();
-
-
         FileClient client = new FileClient();
 
         /*File file3 = new File(UPLOAD_FOLDER + "file3.txt");
@@ -37,34 +30,34 @@ public class FileClient {
         client.addFiles(file3, file4);*/
 
         // Get a file
-        if (s.equalsIgnoreCase(STORE_DATA)) {
+        if (s.equalsIgnoreCase(CommandConstants.STORE_DATA)) {
             String retrievedContent = client.getFiles();
-            System.out.println("store ls: " + retrievedContent);
+            System.out.println(CommandConstants.STORE_DATA + retrievedContent);
         }
         //Delete File from Store
-        if (s.equalsIgnoreCase(REMOVE_FILE)) {
+        if (s.equalsIgnoreCase(CommandConstants.REMOVE_FILE)) {
             // Delete the file
             String fileName = in.nextLine();
-            System.out.println(REMOVE_FILE + " " + fileName);
+            System.out.println(CommandConstants.REMOVE_FILE + " " + fileName);
             client.deleteFile(fileName);
         }
         //Update a file content
-        if (s.equalsIgnoreCase(UPDATE_FILE)) {
+        if (s.equalsIgnoreCase(CommandConstants.UPDATE_FILE)) {
             String fileName = in.nextLine();
-            System.out.println(UPDATE_FILE + " " + fileName);
+            System.out.println(CommandConstants.UPDATE_FILE + " " + fileName);
             String updatedContent = "This is the updated content.";
             client.updateFile(fileName, updatedContent);
         }
 
         //Word Count
-        if (s.equalsIgnoreCase(WORD_COUNT)) {
-            System.out.println(WORD_COUNT + " " + client.wordCount());
+        if (s.equalsIgnoreCase(CommandConstants.WORD_COUNT)) {
+            System.out.println(CommandConstants.WORD_COUNT + " " + client.wordCount());
         }
 
         //Frequent Words
-        if (s.equalsIgnoreCase(FREQUENT_WORDS)) {
+        if (s.equalsIgnoreCase(CommandConstants.FREQUENT_WORDS)) {
             client.frequentWords(10, "asc");
-            System.out.println(FREQUENT_WORDS + client.frequentWords(10, "asc"));
+            System.out.println(CommandConstants.FREQUENT_WORDS + client.frequentWords(10, "asc"));
         }
     }
 

@@ -1,4 +1,9 @@
 # RedHatRepo
+
+Execution Process:
+Step-1 : Run FileStoreServerApplication.java class inside Server Package
+Step-2 : Run FileClint5.java class inside client package    
+
 **Rest End Point URL** :
 Store File                              : http://localhost:8080/store/add          POST Method
 List files in the store                 : http://localhost:8080/files              GET Method

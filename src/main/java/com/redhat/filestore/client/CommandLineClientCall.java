@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class FileClient {
+public class CommandLineClientCall {
 
     private static final String SERVER_URL = "http://localhost:8080";
     private static final String STORE_FOLDER = "stores/";
@@ -22,7 +22,7 @@ public class FileClient {
 
         Scanner in = new Scanner(System.in);
         String s = in.nextLine();
-        FileClient client = new FileClient();
+        CommandLineClientCall client = new CommandLineClientCall();
         //Add Files to Store, considered two files for now
         if (s.equalsIgnoreCase(CommandConstants.ADD_FILES)) {
             String pstrFile1 = in.next();
@@ -36,7 +36,7 @@ public class FileClient {
         // Get a file
         if (s.equalsIgnoreCase(CommandConstants.STORE_DATA)) {
             String retrievedContent = client.getFiles();
-            System.out.println(CommandConstants.STORE_DATA + " " +retrievedContent);
+            System.out.println(CommandConstants.STORE_DATA + " " + retrievedContent);
             in.close();
         }
         //Delete File from Store
@@ -80,7 +80,7 @@ public class FileClient {
         // Add MultipartFile(s) to the MultiValueMap
         try {
             for (File file : files) {
-                body.add("file", new FileSystemResource(STORE_FOLDER+ file.getName().toString()));
+                body.add("file", new FileSystemResource(STORE_FOLDER + file.getName().toString()));
             }
         } catch (Exception e) {
             e.printStackTrace();

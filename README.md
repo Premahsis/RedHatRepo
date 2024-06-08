@@ -30,6 +30,9 @@ store ls  :     **Respose**: store ls: ["file1.txt","file2.txt","please update"]
                 **Steps**
                 Run FileClient.java File
                 In console type "store ls" command
+Updated
+                Response:
+                store ls ["file1.txt","file2.txt"]
                 
 store rm  :    {filename}  e.g store rm file1.txt
                 **Steps**

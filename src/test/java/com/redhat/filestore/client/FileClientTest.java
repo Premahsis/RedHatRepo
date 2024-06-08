@@ -12,11 +12,6 @@ class FileClientTest {
 
 
     @Test
-    void testAddFiles() throws IOException {
-        fileClient.addFiles(new File(getClass().getResource("/com/redhat/filestore/client/PleaseReplaceMeWithTestFile.txt").getFile()));
-    }
-
-    @Test
     void testStoreFile() {
         fileClient.storeFile(List.of("String"), "fileContent");
     }

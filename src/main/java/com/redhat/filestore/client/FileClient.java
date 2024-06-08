@@ -16,23 +16,28 @@ import java.util.Scanner;
 public class FileClient {
 
     private static final String SERVER_URL = "http://localhost:8080";
-    private static final String UPLOAD_FOLDER = "uploads/";
+    private static final String STORE_FOLDER = "stores/";
 
     public static void main(String[] args) throws IOException {
 
         Scanner in = new Scanner(System.in);
         String s = in.nextLine();
         FileClient client = new FileClient();
-
-        /*File file3 = new File(UPLOAD_FOLDER + "file3.txt");
-        File file4 = new File(UPLOAD_FOLDER + "file4.txt");
-        String fileContent = "This is an example file content.";
-        client.addFiles(file3, file4);*/
+        //Add Files to Store, considered two files for now
+        if (s.equalsIgnoreCase(CommandConstants.ADD_FILES)) {
+            String pstrFile1 = in.next();
+            String pstrFile2 = in.next();
+            File file1 = new File(STORE_FOLDER + pstrFile1);
+            File file2 = new File(STORE_FOLDER + pstrFile2);
+            addFile(file1, file2);
+            in.close();
+        }
 
         // Get a file
         if (s.equalsIgnoreCase(CommandConstants.STORE_DATA)) {
             String retrievedContent = client.getFiles();
-            System.out.println(CommandConstants.STORE_DATA + retrievedContent);
+            System.out.println(CommandConstants.STORE_DATA + " " +retrievedContent);
+            in.close();
         }
         //Delete File from Store
         if (s.equalsIgnoreCase(CommandConstants.REMOVE_FILE)) {
@@ -40,6 +45,7 @@ public class FileClient {
             String fileName = in.nextLine();
             System.out.println(CommandConstants.REMOVE_FILE + " " + fileName);
             client.deleteFile(fileName);
+            in.close();
         }
         //Update a file content
         if (s.equalsIgnoreCase(CommandConstants.UPDATE_FILE)) {
@@ -47,6 +53,7 @@ public class FileClient {
             System.out.println(CommandConstants.UPDATE_FILE + " " + fileName);
             String updatedContent = "This is the updated content.";
             client.updateFile(fileName, updatedContent);
+            in.close();
         }
 
         //Word Count
@@ -57,38 +64,34 @@ public class FileClient {
         //Frequent Words
         if (s.equalsIgnoreCase(CommandConstants.FREQUENT_WORDS)) {
             client.frequentWords(10, "asc");
-            System.out.println(CommandConstants.FREQUENT_WORDS + client.frequentWords(10, "asc"));
+            System.out.print(CommandConstants.FREQUENT_WORDS + client.frequentWords(10, "asc"));
         }
     }
 
-    public void addFiles(File... files) throws IOException {
+    public static void addFile(File... files) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = null;
-
+        // URL of the endpoint
+        String url = "http://localhost:8080/store/add";
+        // Create headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
+        // Create MultiValueMap to store the file(s)
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-
-        for (File file : files) {
-            url = SERVER_URL + "/store/add" + file;
-            body.add("files", new FileSystemResource(file));//
+        // Add MultipartFile(s) to the MultiValueMap
+        try {
+            for (File file : files) {
+                body.add("file", new FileSystemResource(STORE_FOLDER+ file.getName().toString()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
+        // Create the request entity with headers and body
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
-        ResponseEntity<File> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, File.class);
-
-        System.out.println("Response status code: " + response.getStatusCode());
-        System.out.println("Response body: " + response.getBody());
-
-        /*RestTemplate restTemplate = new RestTemplate();
-        String url = SERVER_URL + "/store/add/" + files;
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.TEXT_PLAIN);
-        HttpEntity<String> requestEntity = new HttpEntity<>(fileContent, headers);
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-        System.out.println(response.getBody());*/
+        // Send the request and get the response entity
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+        // Print the response
+        System.out.println("Response status code: " + responseEntity.getStatusCode());
+        System.out.println("Response body: " + responseEntity.getBody());
     }
 
 

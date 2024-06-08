@@ -24,13 +24,13 @@ class FileClientTest {
     @Test
     void testGetFiles() {
         String result = fileClient.getFiles();
-        File[] expected = {new File("file1.txt"), new File("file2.txt")};
+        File[] expected = {new File("file3.txt"), new File("file3.txt")};
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     void testUpdateFile() {
-        fileClient.updateFile("file1.txt", "fileContent");
+        fileClient.updateFile("file3.txt", "fileContent");
     }
 
     @Test

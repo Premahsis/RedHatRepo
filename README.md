@@ -1,7 +1,7 @@
 # RedHatRepo
 
 Execution Process:
-Build Project: mvn clean install and then follow below steps.
+Build Project: mvn clean install and then follow below steps. or run "mvn install -DskipTests" to skip test case for first time
 Step-1 : Run FileStoreServerApplication.java class inside Server Package
 Step-2 : Run FileClint.java class inside client package    
 

@@ -72,6 +72,8 @@ Note: Keep FileStoreServerApplication.java class always keep running don't stop 
 ===========================================================================================
 Using Postman::::
 
+We can do all operation to verify on server side.
+
 For Storing File:
 Steps:
 We can Postman, having POST Method below is the End Point URL for the same
